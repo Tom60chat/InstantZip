@@ -97,9 +97,6 @@ Usage:
     ./source.zip -> ./source.zip
 
 Arguments:
-    -s, --source
-      Directory(ies) or file(s) to compress.
-
     -d, --destination
       destination directory/filename
 
