@@ -5,7 +5,7 @@ Zip everything, without wasting our time
 Drag the file you want to zip and drop it on InstantZip.exe
 
 ## Shell
-Write ./InstantZip.exe with the files you want to zip in a shell
+Write ./InstantZip.exe with the files you want to zip in a shell 
 Like: `"./InstantZip.exe" ..\Release\net6.0\publish\*\ -d ./Out/ -c s`
 
 Usage:
