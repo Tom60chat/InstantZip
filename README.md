@@ -1,8 +1,6 @@
 # InstantZip
 Zip everything, without wasting our time
 
-## Usage
-
 ## Drag and drop
 Drag the file you want to zip and drop it on InstantZip.exe
 
