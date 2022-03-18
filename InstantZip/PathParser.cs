@@ -2,6 +2,7 @@
 {
     public static class PathParser
     {
+        #region Methods
         /// <summary>
         /// If the string it's a directory
         /// </summary>
@@ -57,5 +58,6 @@
             else
                 return new FileInfo[] { file };
         }
+        #endregion
     }
 }

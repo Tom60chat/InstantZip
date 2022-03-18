@@ -1,0 +1,31 @@
+{
+  "profiles": {
+    "InstantZip": {
+      "commandName": "Project"
+    },
+    "InstantZip.Root2Folder": {
+      "commandName": "Project",
+      "commandLineArgs": "./Test/In/ -d ./Test/Out/Root2Folder/"
+    },
+    "InstantZip.Files2Folder": {
+      "commandName": "Project",
+      "commandLineArgs": "./Test/In/* -d ./Test/Out/Files2Folder/"
+    },
+    "InstantZip.Files2File": {
+      "commandName": "Project",
+      "commandLineArgs": "./Test/In/* -d ./Test/Out/Files2File.zip"
+    },
+    "InstantZip.Folders2File": {
+      "commandName": "Project",
+      "commandLineArgs": "./Test/In/*/ -d ./Test/Out/Folders2File.zip"
+    },
+    "InstantZip.Folders2Folder": {
+      "commandName": "Project",
+      "commandLineArgs": "./Test/In/*/ -d ./Test/Out/Folders2Folder/"
+    },
+    "InstantZip.Root2File": {
+      "commandName": "Project",
+      "commandLineArgs": "./Test/In/ -d ./Test/Out/Root2File.zip"
+    }
+  }
+}

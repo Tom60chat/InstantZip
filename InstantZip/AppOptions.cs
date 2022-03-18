@@ -4,10 +4,17 @@ namespace InstantZip
 {
     internal static class AppOptions
     {
+        #region Variables
         internal static List<string> Sources = new();
         internal static string Destination = Directory.GetCurrentDirectory();
         internal static CompressionLevel CompressionLevel = CompressionLevel.Fastest;
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Parses arguments to set application options
+        /// </summary>
+        /// <param name="args">Arguments to parse</param>
         public static void Apply(string[] args)
         {
             string lastArg = string.Empty;
@@ -51,5 +58,6 @@ namespace InstantZip
                 lastArg = arg;
             }
         }
+        #endregion
     }
 }

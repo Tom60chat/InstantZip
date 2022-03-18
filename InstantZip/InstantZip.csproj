@@ -8,6 +8,8 @@
     <Authors>Tom OLIVIER</Authors>
     <PackageProjectUrl>https://github.com/Tom60chat/InstantZip</PackageProjectUrl>
     <NeutralLanguage>en</NeutralLanguage>
+    <Version>1.1.0</Version>
+    <Description>Zip everything, without wasting our time.</Description>
   </PropertyGroup>
 
 </Project>

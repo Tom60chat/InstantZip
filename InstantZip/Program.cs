@@ -9,12 +9,12 @@ else if (AppOptions.Sources.Count == 0)
     PrintHelp();
 else
 {
-    bool conflict = false;
-    Dictionary<DirectoryInfo, string> directories = new();
-    Dictionary<FileInfo, string> files = new();
-
     foreach (var source in AppOptions.Sources)
     {
+        bool conflict = false;
+        Dictionary<DirectoryInfo, string> directories = new();
+        Dictionary<FileInfo, string> files = new();
+
         if (PathParser.IsDirectory(source))
         {
             var subDirectories = PathParser.StringToDirectories(source);
@@ -23,13 +23,18 @@ else
             {
                 var destinationZip = ZipUtility.GetDestination(directory.Name, AppOptions.Destination);
 
+                if (!directory.Exists)
+                {
+                    Console.WriteLine($"Directory {directory.Name} don't exists");
+                    conflict = true;
+                }
                 if (File.Exists(destinationZip))
                 {
                     Console.WriteLine($"{directory.Name}{ZipUtility.ZipExtension} already exists");
                     conflict = true;
                 }
 
-            directories.Add(directory, destinationZip);
+                directories.Add(directory, destinationZip);
             }
         }
         else
@@ -40,6 +45,11 @@ else
             {
                 var destinationZip = ZipUtility.GetDestination(file.Name, AppOptions.Destination);
 
+                if (!file.Exists)
+                {
+                    Console.WriteLine($"File {file.Name} don't exists");
+                    conflict = true;
+                }
                 if (File.Exists(destinationZip))
                 {
                     Console.WriteLine($"{file.Name}{ZipUtility.ZipExtension} already exists");
@@ -49,28 +59,24 @@ else
                 files.Add(file, destinationZip);
             }
         }
-    }
 
-    if (conflict)
-    {
-        Console.WriteLine("Extraction aborted");
-        Environment.Exit(1);
-    }
-    else
-    {
-        // Extracting directories
-        if (directories.Count == 1)
+        if (conflict)
         {
-            var subDirectory = directories.First();
-            ZipFile.CreateFromDirectory(subDirectory.Key.FullName, subDirectory.Value);
+            Console.WriteLine($"Extraction aborted for {source}");
         }
         else
-            foreach (var subDirectory in directories)
-                ZipUtility.Zip(subDirectory.Key, subDirectory.Value);
+        {
+            // Extracting directories
+            if (PathParser.IsDirectory(AppOptions.Destination) || directories.Count == 1)
+                foreach (var subDirectory in directories)
+                    ZipFile.CreateFromDirectory(subDirectory.Key.FullName, subDirectory.Value, AppOptions.CompressionLevel, false);
+            else if (directories.Count != 0)
+                ZipUtility.Zip(directories.Keys, directories.First().Value);
 
-        // Extracting files
-        foreach (var subFiles in files)
-            ZipUtility.Zip(subFiles.Key, subFiles.Value);
+            // Extracting files
+            foreach (var subFiles in files)
+                ZipUtility.Zip(subFiles.Key, subFiles.Value);
+        }
     }
 }
 

@@ -1,37 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Compression;
 
 namespace InstantZip
 {
     public static class ZipUtility
     {
+        #region Variables
         public const string ZipExtension = ".zip";
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Zip the file to the destination
         /// </summary>
         /// <param name="source">File to compress</param>
         /// <param name="destination">Destination zip file</param>
-        public static void Zip(FileInfo source, string destinationZip)
+        /// <returns>if successful</returns>
+        public static bool Zip(FileInfo source, string destinationZip)
         {
+            if (!source.Exists)
+                return false;
+
             ZipArchive(destinationZip, (archive) =>
                 archive.CreateEntryFromFile(source.FullName, source.Name, AppOptions.CompressionLevel));
-            
-        }
 
-        /// <summary>
-        /// Zip the files to the destination
-        /// </summary>
-        /// <param name="source">Files to compress</param>
-        /// <param name="destination">Destination zip file</param>
-        public static void Zip(FileInfo[] source, string destination)
-        {
-            foreach (FileInfo file in source)
-                Zip(file, destination);
+            return true;
         }
 
         /// <summary>
@@ -39,21 +31,44 @@ namespace InstantZip
         /// </summary>
         /// <param name="source">Directory to compress</param>
         /// <param name="destination">Destination zip file</param>
-        public static void Zip(DirectoryInfo source, string destinationZip)
+        /// <returns>if successful</returns>
+        public static bool Zip(DirectoryInfo source, string destinationZip)
         {
+            if (!source.Exists)
+                return false;
+
             ZipArchive(destinationZip, (archive) =>
                 FillZip(archive, source));
+
+            return true;
         }
 
         /// <summary>
-        /// Zip the directories to the destination
+        /// Zip the directory to the destination
         /// </summary>
-        /// <param name="source">Directories to compress</param>
+        /// <param name="source">Directory to compress</param>
         /// <param name="destination">Destination zip file</param>
-        public static void Zip(DirectoryInfo[] source, string destination)
+        /// <returns>if successful</returns>
+        public static bool Zip(ICollection<DirectoryInfo> source, string destinationZip)
         {
-            foreach (DirectoryInfo directory in source)
-                Zip(directory, destination);
+            bool result = true;
+
+            ZipArchive(destinationZip, (archive) =>
+            {
+                foreach (var directory in source)
+                {
+                    if (!directory.Exists)
+                    {
+                        File.Delete(destinationZip);
+                        result = false;
+                        return;
+                    }
+
+                    FillZip(archive, directory);
+                }
+            });
+
+            return result;
         }
 
         public static string GetDestination(string source, string destination)
@@ -95,5 +110,6 @@ namespace InstantZip
 
             action.Invoke(archive);
         }
+        #endregion
     }
 }
