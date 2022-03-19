@@ -1,10 +1,15 @@
 # InstantZip
 Zip everything, without wasting our time
 
-## Drag and drop
+
+## Dependencies:
+You need [.NET Core 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (Run console apps).
+
+## How to use it ?
+### Drag and drop
 Drag the file you want to zip and drop it on InstantZip.exe
 
-## Shell
+### Shell
 Write ./InstantZip.exe with the files you want to zip in a shell  
 Like: `"./InstantZip.exe" ..\Release\net6.0\publish\*\ -d ./Out/ -c s`
 
